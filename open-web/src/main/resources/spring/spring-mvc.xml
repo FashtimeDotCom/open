@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	   http://www.springframework.org/schema/context 
+	   http://www.springframework.org/schema/context/spring-context-3.1.xsd
+	   http://www.springframework.org/schema/mvc
+	   http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+	   ">
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.jscn.open" />
+
+	<mvc:annotation-driven />
+
+	<import resource="classpath:/spring/spring-config.xml" />	
+	
+	<!-- velocity view -->
+	<bean id="velocityConfigurer"
+		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+		<property name="resourceLoaderPath" value="WEB-INF/pages" />
+		<property name="velocityProperties">
+			<props>
+				<prop key="input.encoding">UTF-8</prop>
+				<prop key="output.encoding">UTF-8</prop>
+			</props>
+		</property>
+		
+	</bean>
+
+	<bean id="velocityViewResolver"
+		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+		<property name="order" value="5" />
+		<property name="cache" value="true" />
+		<property name="prefix" value="" />
+		<property name="suffix" value=".vm" />
+		<property name="contentType" value="text/html; charset=UTF-8" />
+	</bean>
+
+	<!-- jsp view -->
+<!-- 	<bean -->
+<!-- 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
+<!-- 		<property name="order" value="3" /> -->
+<!-- 		<property name="prefix" value="/" /> -->
+<!-- 		<property name="suffix" value=".jsp" /> -->
+<!-- 	</bean> -->
+<!-- 	<mvc:interceptors> -->
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/**/*.shtml" /> -->
+<!-- 			<bean class="com.jscn.tvmall.support.springmvc.interceptor.PageInterceptor" /> -->
+<!-- 		</mvc:interceptor> -->
+<!-- 	</mvc:interceptors> -->
+
+	<!-- 统一异常处理 -->
+	<!-- <bean id="webExceptionResolver" -->
+	<!-- class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
+	<!-- <property name="defaultErrorView" value="hd/error/error" /> -->
+	<!-- <property name="exceptionMappings"> -->
+	<!-- <props> -->
+	<!-- <prop key="java.lang.Exception"> -->
+	<!-- hd/error/error -->
+	<!-- </prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+
+
+
+	<!-- <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" 
+		/> -->
+
+	<!-- <bean id="exceptionResolver" -->
+	<!-- class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"> -->
+	<!-- <property name="order" value="1"/> -->
+	<!-- <property name="defaultErrorView"> -->
+	<!-- <value>../../common/jsp/error</value> -->
+	<!-- </property> -->
+	<!-- <property name="exceptionMappings"> -->
+	<!-- <props> -->
+	<!-- <prop key="java.sql.SQLException">../../common/jsp/error</prop> -->
+	<!-- <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">../../common/jsp/error</prop> -->
+	<!-- </props> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
+	<!-- <property name="maxUploadSize" value="-1"/> -->
+	<!-- <property name="maxInMemorySize" value="2048" /> -->
+	<!-- </bean> -->
+
+</beans>

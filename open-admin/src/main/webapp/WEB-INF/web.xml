@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>open-web</param-value>
+	</context-param>
+
+	<!-- 【字符集过滤】 -->
+	<filter>
+		<filter-name>Set Character Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Set Character Encoding</filter-name>
+		<url-pattern>/manage/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>Login Filter</filter-name>
+		<filter-class>com.jscn.open.admin.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Login Filter</filter-name>
+		<url-pattern>/manage/*</url-pattern>
+	</filter-mapping>
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>Set Character Encoding</filter-name> -->
+<!-- 		<url-pattern>/service/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>Set Character Encoding</filter-name> -->
+<!-- 		<url-pattern>/permit/*</url-pattern> -->
+<!-- 	</filter-mapping> -->
+	
+	<!-- 【登录过滤器】 -->
+<!-- 	<filter> -->
+<!-- 		<filter-name>loginFilter</filter-name> -->
+<!-- 		<filter-class>com.jscn.icbctv.util.filter.LoginFilter</filter-class> -->
+<!-- 	</filter> -->
+<!-- 	<filter-mapping> -->
+<!-- 		<filter-name>loginFilter</filter-name> -->
+<!-- 		<url-pattern>*.htm</url-pattern> -->
+<!-- 	</filter-mapping> -->
+
+	<servlet>
+		<servlet-name>Dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				classpath:/spring/spring-mvc.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>Dispatcher</servlet-name>
+		<url-pattern>/manage/*</url-pattern>
+	</servlet-mapping>
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Dispatcher</servlet-name> -->
+<!-- 		<url-pattern>/service/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+<!-- 	<servlet-mapping> -->
+<!-- 		<servlet-name>Dispatcher</servlet-name> -->
+<!-- 		<url-pattern>/permit/*</url-pattern> -->
+<!-- 	</servlet-mapping> -->
+	
+
+	<!-- 500 服务器内部错误 -->
+	<!--	<error-page>-->
+	<!--		<error-code>500</error-code>-->
+	<!--		<location>/common/jsp/error.jsp</location>-->
+	<!--	</error-page>-->
+	<!--	<error-page>-->
+	<!--		<error-code>404</error-code>-->
+	<!--		<location>/common/jsp/error.jsp</location>-->
+	<!--	</error-page>-->
+
+	<welcome-file-list>
+		<welcome-file>mangage/login</welcome-file>
+	</welcome-file-list>
+	<session-config> 
+   		<session-timeout>30</session-timeout> 
+  	</session-config> 
+
+</web-app>

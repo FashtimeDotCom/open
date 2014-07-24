@@ -1,0 +1,9 @@
+<div align="center">
+页面访问出错
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div style=" color:red;font-size:14px;">$!{message}</div>
+</div>

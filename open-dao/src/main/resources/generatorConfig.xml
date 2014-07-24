@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <classPathEntry location="e:/mybatis/ojdbc14-10.2.0.4.0.jar" />
+
+  <context id="open" targetRuntime="MyBatis3">
+    <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+        connectionURL="jdbc:oracle:thin:@192.168.100.12:1521:jscndev"
+        userId="jscnopen"
+        password="jscnopen">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.jscn.open.dao" targetProject="open-dao/src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="sqlmap"  targetProject="open-dao/src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.jscn.open.dao"  targetProject="open-dao/src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table schema=""   tableName="OP_PARTNER" domainObjectName="Partner" >
+      <generatedKey column="ID" sqlStatement="ORACLE" identity="true" />
+    </table>
+
+	<table schema="" tableName="OP_SERVICE" domainObjectName="OpService" >
+      <generatedKey column="ID" sqlStatement="ORACLE" identity="true" />
+    </table>
+	<table schema="" tableName="PARTNER_SERVICE" domainObjectName="PartnerService" >
+      <generatedKey column="ID" sqlStatement="ORACLE" identity="true" />
+    </table>
+
+  </context>
+</generatorConfiguration>

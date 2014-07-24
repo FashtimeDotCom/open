@@ -1,0 +1,13 @@
+建立日志文件夹 /opt/open/logs
+
+open-admin 开放平台管理系统，管理合作伙伴，服务，权限等，
+
+1、修改war包中的/WEB-INF/classes/database.properties，修改成测试环境的数据库配置
+
+
+open-web 开放平台，统一外部接入入口程序
+1、修改war包中的/WEB-INF/classes/database.properties，修改成测试环境的数据库配置
+
+
+
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("/common/commonLib.vm") 
+
+<script type="text/javascript">
+	//var statusList = [{ status: 1, statusName: '激活' }, { status: 2, statusName: '禁用'}, { status: 3, statusName: '申请中'}];
+	
+	var statusList = [{ status: 1, statusName: '开通' }, { status: 0, statusName: '未开通'}];
+	var protectList = [{ protectId: 1, protectName: '保护' }, { protectId: 0, protectName: '开放'}];
+	
+	$(f_initGrid); 
+	var manager;
+	var combox;
+	function f_initGrid()
+    {
+	
+		partnerCombox = $("#partner").ligerComboBox({
+                width: 200,
+                slide: false,
+                selectBoxWidth: 240,
+                selectBoxHeight: 240, valueField: 'id', textField: 'partnerName',
+				hideOnLoseFocus:true,
+				
+				onHide:query,
+				grid: getPartnerOptions(false)
+            });
+			
+        manager = $("#maingrid").ligerGrid({
+            columns: [
+            { display: '主键', name: 'id', width: 100, type: 'int' },
+            { display: '服务名', name: 'serviceName'},
+            { display: '方法名', name: 'methodName',editor: { type: 'text' } },
+			{ display: '状态', name: 'status', width: 120, isSort: false,
+                editor: { type: 'select', data: statusList, valueColumnName: 'status', displayColumnName: 'statusName' }, render: function (item)
+                {
+                    for (var i = 0; i < statusList.length; i++)
+                    {
+                        if (statusList[i]['status'] == item.status)
+                            return statusList[i]['statusName']
+                    }
+                    return item.statusName;
+                }
+            },
+			{ display: '权限', name: 'isProtect', width: 120, isSort: false,
+                editor: { type: 'select', data: protectList, valueColumnName: 'protectId', displayColumnName: 'protectName' }, render: function (item)
+                {
+                    for (var i = 0; i < protectList.length; i++)
+                    {
+                        if (protectList[i]['protectId'] == item.isProtect)
+                            return protectList[i]['protectName']
+                    }
+                    return item.protectName;
+                }
+            },
+            { display: '备注', name: 'remark',editor: { type: 'text' }, width: 200},
+            { display: 'URL', name: 'url',editor: { type: 'text' }, width: 200}
+            ],
+            enabledEdit: false,   isScroll: false,  checkbox:true,rownumbers:true,
+            url: 'queryService',
+			usePager :false,
+			isChecked:f_isChecked,
+            width: '100%'
+        });
+    }
+	var permitlist="";
+		function f_isChecked(rowdata){
+			//alert(permitlist);
+			if(permitlist.indexOf(rowdata.id)>=0){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		function query(){
+			var value = partnerCombox.selectedValue;
+			data = "partnerId="+value;
+    		$.post('query',data,querySuccess);
+		}
+        
+		function querySuccess(data){
+			permitlist=data;
+			//for(index in permitlist){
+			//	alert(permitlist[index].id);
+			//}
+			//manager.set("url","queryService");
+			manager.loadData();
+		}
+				
+		
+		function getPartnerOptions(checkbox)
+        {
+            var options = {
+                columns: [
+                { display: 'ID', name: 'id', align: 'left', width: 100, minWidth: 60 },
+                { display: '合作伙伴名', name: 'partnerName', minWidth: 120 }
+                ], switchPageSizeApplyComboBox: false,
+                data: $.extend({}, ${partners}),
+                pageSize: 30, 
+                checkbox: checkbox
+            };
+            return options;
+        }
+		
+		function save(){
+			var partnerId = partnerCombox.selectedValue;
+			if(!partnerId){
+				alert("请选择一个合作伙伴");
+				return;
+			}
+			var data = manager.getSelecteds();
+			var services="" ;
+			for(var index in data){
+				services +=data[index].id;
+				services += "|";
+			}
+			data = "partnerId="+partnerId +"&services="+services;
+			$.post('save',data,success);
+		}
+		
+		function success(data){
+			alert(data.message);
+		}
+</script>
+</head>
+<body >
+<br/>
+	 
+	 <table><tr height="20"><td >
+     <div style="margin-left:10px;"><input type="text"  id="partner" /> </div>
+        </td><td ><a class="l-button" style="width:100px;margin-left:10px;" onclick="save()">保存</a></td> </tr></table>
+
+	 <div id="maingrid" style="margin-top:20px;margin-left:10px;margin-bottom:30px;">
+	 	
+	 </div> 
+
+</body>
+</html>

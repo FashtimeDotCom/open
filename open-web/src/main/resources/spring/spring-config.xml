@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd
+                        http://www.springframework.org/schema/tx
+                        http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+	<context:property-placeholder location="classpath:/database.properties"/>
+	
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url">
+			<value>${jscn.tvmall.database.url}</value>
+		</property>
+		<property name="username">
+			<value>${jscn.tvmall.database.username}</value>
+		</property>
+		<property name="password">
+			<value>${jscn.tvmall.database.password}</value>
+		</property>
+	</bean> -->
+
+	<bean id="dataSource" class="org.logicalcobwebs.proxool.ProxoolDataSource">
+		<property name="driver">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="driverUrl">
+			<value>${jscn.open.database.url}</value>
+		</property>
+		<property name="user" value="${jscn.open.database.username}" />
+		<property name="password" value="${jscn.open.database.password}" />
+		<property name="alias" value="proxooldbpool" />
+		<property name="maximumActiveTime" value="${proxool.maximumActiveTime}" />
+		<property name="prototypeCount" value="${proxool.prototypeCount}" />
+		<property name="maximumConnectionCount" value="${proxool.maximumConnectionCount}" />
+		<property name="minimumConnectionCount" value="${proxool.minimumConnectionCount}" />
+		<property name="simultaneousBuildThrottle" value="${proxool.simultaneousBuildThrottle}" />
+		<property name="houseKeepingTestSql" value="select * from dual" />
+	</bean>
+
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.jscn.open.dao" />
+	</bean>
+	
+	<!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
+	<bean class="com.jscn.commons.core.spring.SpringContextHolder" lazy-init="false" />
+	
+	<!-- 统一日志 -->
+	<bean class="com.jscn.commons.core.logger.MethodLogger"/>
+
+	
+</beans>

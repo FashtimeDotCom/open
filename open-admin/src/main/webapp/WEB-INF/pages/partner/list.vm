@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+#parse("/common/commonLib.vm") 
+
+<script type="text/javascript">
+	var statusList = [{ status: 1, statusName: '激活' }, { status: 0, statusName: '未激活'}];
+	$(f_initGrid); 
+	var manager;
+	function f_initGrid()
+    {
+        manager = $("#maingrid").ligerGrid({
+            columns: [
+            { display: '主键', name: 'id', width: 100, type: 'int' },
+            { display: '合作伙伴名', name: 'partnerName',editor: { type: 'text', maxlength: '50'},columnWidth:10 },
+            { display: '状态', name: 'status', width: 120, isSort: false,
+                editor: { type: 'select', data: statusList, valueColumnName: 'status', displayColumnName: 'statusName' }, render: function (item)
+                {
+                    for (var i = 0; i < statusList.length; i++)
+                    {
+                        if (statusList[i]['status'] == item.status)
+                            return statusList[i]['statusName']
+                    }
+                    return item.statusName;
+                }
+            },
+            { display: 'MD5Key', name: 'md5Key',editor: { type: 'text', maxlength: '50' }, width: 200},
+            { display: 'IP List', name: 'ipList',editor: { type: 'text' , maxlength: '500'}, width: 200},
+            { display: '描述', name: 'description',editor: { type: 'text' , maxlength: '500'}, width: 200},
+            { display: '备注', name: 'remark',editor: { type: 'text', maxlength: '500' }, width: 200}
+            ],
+            enabledEdit: true,   isScroll: false,  checkbox:true,rownumbers:true,
+			dataAction:'local',
+            data: ${partner},
+            width: $("#maingrid").innerWidth()
+        });
+    }
+		function deleteRow()
+        { 
+            manager.deleteSelectedRow();
+        }
+		
+   
+        function addNewRow()
+        {
+			manager.endEdit();
+			var data = manager.getUpdated();
+			if(data.length>0){
+				if(window.confirm("有未保存的更新是否保存")){
+					save();
+				}else{
+            		return;
+				}
+			}else{
+				manager.addRow();
+			}
+        } 
+		
+		function save(){
+			manager.endEdit();
+			var changed = manager.getUpdated();
+            changed = JSON.stringify(changed);
+			changed = "changedPartners="+changed;
+			
+			var added = manager.getAdded();
+            added = JSON.stringify(added);
+			added = "addedPartners="+added;
+			
+			var data = changed+"&"+added;
+			$.post('save',data,success);
+		
+		}
+		
+		 function delet()
+        {
+			
+			if(!window.confirm("确定要删除？")){
+				return;
+			}
+			manager.deleteSelectedRow();
+			setTimeout(function(){
+				var data = manager.getDeleted();
+				for(var obj in data){
+					delete data[obj].__status;
+				}
+                data = JSON.stringify(data);
+    			data = "partnerStr="+data;
+    			$.post('delete',data,success);
+			},200);
+            
+        }
+		function success(data){
+			alert(data.message);
+			if(data.refresh=="true"){
+				window.location.reload();
+			}
+		}
+		
+		
+		
+</script>
+</head>
+<body >
+	<br/>
+	<a class="l-button" style="width:120px;float:left; margin-left:10px;" onclick="delet()">删除</a>
+	
+	<a class="l-button" style="width:100px;float:left; margin-left:10px;" onclick="addNewRow()">新增</a> 
+	<a class="l-button" id="saveButton" style="width:100px;float:left; margin-left:10px;" onclick="save()">保存</a>
+	
+<br/>
+
+	 <div id="maingrid" style="margin-top:20px;margin-left:10px;"></div> <br />
+	
+</body>
+</html>

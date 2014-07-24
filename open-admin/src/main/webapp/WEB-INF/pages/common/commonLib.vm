@@ -1,0 +1,5 @@
+<script type="text/javascript" charset="utf-8" src="#springUrl('/common/js/jquery.min-1.4.2.js')"></script>
+<script type="text/javascript" charset="utf-8" src="#springUrl('/common/js/common.js')"></script>
+<link href="#springUrl('/common/ligerUI/skins/Aqua/css/ligerui-all.css')" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="#springUrl('/common/ligerUI/js/core/base.js')"></script>
+<script type="text/javascript" charset="utf-8" src="#springUrl('/common/ligerUI/js/ligerui.all.js')"></script>

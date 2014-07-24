@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>登录</title>
+<link href="#springUrl('/common/css/layout.css')" rel="stylesheet" type="text/css"/>
+<link href="#springUrl('/common/css/style_main.css')" rel="stylesheet" type="text/css"/>
+
+</head>
+
+<body style="background-color:#d6dee0">
+
+<div class="loginbg">
+
+
+
+
+   <div class="loginmainbg">
+   
+   
+   <form action="logon" method="post">
+   
+       <div class="loginul" >
+           
+           <ul>
+           <li style="width:60px; font-size:14px;" >用户名:</li>
+           <li><input name="username" type="text" class="input1" value="$!{userName}"/></li>      
+           <li style="width:60px; font-size:14px;" >密  码:</li>
+           <li><input name="password" type="password" class="input1" /></li> 
+		   
+    	   <li style="width:60px;" > </li>
+		   <li style=" color:red;font-size:14px;">$!{message}</li>
+		   </ul>
+		   <ul>
+    	   <li style="width:60px;" > </li>
+           <li ><input type="image" src="#springUrl('/common/images/button.jpg')" width="123" height="40" onclick="submit()" /></li>   
+           </ul>
+    
+       </div>
+   
+   </form>
+
+
+   
+   </div>
+   
+   
+  <div class="loginbottom">Copyright © 2012 江苏省广电网络科技发展有限公司. All rights reserved. </div>
+
+
+
+</div>
+
+
+
+
+</body>
+</html>

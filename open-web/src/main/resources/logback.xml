@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+  <!-- 基础log目录 -->
+  <substitutionProperty name="log.base" value="/opt/open/logs" />
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>info</level>
+    </filter>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+
+
+  <!-- web log -->
+  <appender name="webLoggerFileOut" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>info</level>
+    </filter>
+    <file>${log.base}/open.log</file>
+     <encoding>utf-8</encoding>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${log.base}/open.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!-- or whenever the file size reaches 100MB -->
+        <maxFileSize>50MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  
+  <!-- error 模块log配置 -->
+  <appender name="errorLoggerFileOut" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <file>${log.base}/open-error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${log.base}/open-error.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!-- or whenever the file size reaches 100MB -->
+        <maxFileSize>50MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- aop log配置 -->
+  <appender name="aopLoggerFileOut" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>info</level>
+    </filter>
+    <file>${log.base}/open-method.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <FileNamePattern>${log.base}/open-method.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+      <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!-- or whenever the file size reaches 100MB -->
+        <maxFileSize>50MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  
+  
+   <logger name="com.jscn.open">
+    <appender-ref ref="stdout" />
+    <appender-ref ref="webLoggerFileOut" />
+    <appender-ref ref="errorLoggerFileOut" />
+  </logger>
+  <logger name="com.jscn.commons.core.logger.MethodLogger" >
+    <appender-ref ref="aopLoggerFileOut" />
+  </logger>
+
+  <logger name="ch.qos.logback" level="ERROR" />
+  <logger name="org.springframework" level="ERROR" />
+  <logger name="net.sf.ehcache" level="ERROR" />
+  <logger name="org.hibernate" level="ERROR" />
+  <logger name="org.hibernate.SQL" level="ERROR" />
+  <logger name="org.hibernate.cache" level="ERROR" />
+  <logger name="org.apache.struts2" level="ERROR" />
+  <logger name="org.apache.commons" level="ERROR" />
+  <logger name="org.apache.velocity" level="ERROR" />
+  <logger name="org.apache.tiles" level="ERROR" />
+  <logger name="freemarker" level="ERROR" />
+  <logger name="com.opensymphony.xwork2" level="ERROR" />
+  <logger name="org.apache.commons.validator.ValidatorResources" level="ERROR" />
+  
+  
+</configuration>
